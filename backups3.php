@@ -52,7 +52,7 @@ foreach ($databases as $db) {
     if (!$isExcluded) {
         $backupfile = $database . date("Y-m-d") . '.gz';
 
-        $command = BACKUP_PATH_MYSQLDUMP . " --single-transaction --user=" . MYSQL_USER . " --password=" . MYSQL_PASS . " --host=" . MYSQL_SERVER . " --databases " . $database . " | gzip -9 > " . TMP_PATH . "$backupfile";
+        $command = BACKUP_PATH_MYSQLDUMP . " --single-transaction --user=" . MYSQL_USER . " '-p" . MYSQL_PASS . "' --host=" . MYSQL_SERVER . " --databases " . $database . " | gzip -9 > " . TMP_PATH . "$backupfile";
         $out = "";
         $err = "";
 
