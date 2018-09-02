@@ -5,19 +5,19 @@ require 'ConnexioInterceptor.php';
 require 'AmazonServei.php';
 
 //Esborrem els arxius per estalviar espai
-$command = 'rm -rf *.gz';
+$command = 'sudo rm -rf *.gz';
 $out = "";
 $err = "";
 
 $return = exec($command, $out, $err);
 
-$command = 'rm -rf *.docx';
+$command = 'sudo rm -rf *.docx';
 $out = "";
 $err = "";
 
 $return = exec($command, $out, $err);
 
-$command = 'rm -rf *.part*';
+$command = 'sudo rm -rf *.part*';
 $out = "";
 $err = "";
 
