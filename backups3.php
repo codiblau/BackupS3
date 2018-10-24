@@ -5,23 +5,15 @@ require 'ConnexioInterceptor.php';
 require 'AmazonServei.php';
 
 //Esborrem els arxius per estalviar espai
-$command = 'echo "'.SUDO_PASSWORD.'" | sudo -S rm -rf *.gz';
-$out = "";
-$err = "";
+$patternsToDelete = array('*.gz','*.docx','*.part*','*.jpg','*.jpeg','*.png');
 
-$return = exec($command, $out, $err);
+foreach($patternsToDelete as $p){
+    $command = 'echo "'.SUDO_PASSWORD.'" | sudo -S rm -rf '.TMP_PATH.$p;
+    $out = "";
+    $err = "";
 
-$command = 'echo "'.SUDO_PASSWORD.'" | sudo -S rm -rf *.docx';
-$out = "";
-$err = "";
-
-$return = exec($command, $out, $err);
-
-$command = 'echo "'.SUDO_PASSWORD.'" | sudo -S rm -rf *.part*';
-$out = "";
-$err = "";
-
-$return = exec($command, $out, $err);
+    $return = exec($command, $out, $err);
+}
 
 
 $dataAra = new DateTime("now", new DateTimeZone('Europe/Madrid'));
