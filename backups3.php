@@ -5,19 +5,19 @@ require 'ConnexioInterceptor.php';
 require 'AmazonServei.php';
 
 //Esborrem els arxius per estalviar espai
-$command = 'sudo rm -rf *.gz';
+$command = 'echo "'.SUDO_PASSWORD.'" | sudo -S rm -rf *.gz';
 $out = "";
 $err = "";
 
 $return = exec($command, $out, $err);
 
-$command = 'sudo rm -rf *.docx';
+$command = 'echo "'.SUDO_PASSWORD.'" | sudo -S rm -rf *.docx';
 $out = "";
 $err = "";
 
 $return = exec($command, $out, $err);
 
-$command = 'sudo rm -rf *.part*';
+$command = 'echo "'.SUDO_PASSWORD.'" | sudo -S rm -rf *.part*';
 $out = "";
 $err = "";
 

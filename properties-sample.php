@@ -22,6 +22,9 @@ define("AWS_PRIVATE_KEY", "your-private-amazon-aws-key");
 //TEMPORAL PATH
 define("TMP_PATH", "/tmp/");
 
+//SUDO
+define("SUDO_PASSWORD", "");
+
 //BACKUP FILES
 define("BACKUP_PATH_FOLDERS", 'etc/apache2 etc/mysql var/www');
 ?>
