@@ -16,8 +16,8 @@ foreach($patternsToDelete as $p){
 }
 
 
-$dataAra = new DateTime("now", new DateTimeZone('Europe/Madrid'));
-$diaSetmana = $dataAra->format('w'); // 0 - 6
+$today = new DateTime("now", new DateTimeZone('Europe/Madrid'));
+$weekDay = $today->format('w'); // 0 - 6
 //Modifiquem variables php
 //error_reporting(E_ALL);
 set_time_limit(0);
@@ -60,22 +60,23 @@ foreach ($databases as $db) {
 //Finished MySQL backup
 //
 //Prepare export files
-if ($diaSetmana == 0) {
-    $command = 'tar -zcPf ' . TMP_PATH . 'full_' . $dataAra->format('Y-m-d') . '.tar.gz -C / ' . BACKUP_PATH_FOLDERS;
+//0 is SUNDAY
+if ($weekDay == 0) {
+    $command = 'tar -zcPf ' . TMP_PATH . 'full_' . $today->format('Y-m-d') . '.tar.gz -C / ' . BACKUP_PATH_FOLDERS;
     $out = "";
     $err = "";
 
     $return = exec($command, $out, $err);
 
     //Divivim en bocins de 5 GB (-d per sufixes amb números, per defecte el sufixe es aa, ab, ac..)
-    $command = 'split --bytes=5000M -d ' . TMP_PATH . 'full_' . $dataAra->format('Y-m-d') . '.tar.gz ' . TMP_PATH . 'full_' . $dataAra->format('Y-m-d') . '.part';
+    $command = 'split --bytes=5000M -d ' . TMP_PATH . 'full_' . $today->format('Y-m-d') . '.tar.gz ' . TMP_PATH . 'full_' . $today->format('Y-m-d') . '.part';
     $out = "";
     $err = "";
 
     $return = exec($command, $out, $err);
 
     //Número de parts que hem creat
-    $numParts = ceil(filesize(TMP_PATH . 'full_' . $dataAra->format('Y-m-d') . '.tar.gz') * .0009765625 * .0009765625 / 5000);
+    $numParts = ceil(filesize(TMP_PATH . 'full_' . $today->format('Y-m-d') . '.tar.gz') * .0009765625 * .0009765625 / 5000);
 
     for ($i = 0; $i < $numParts; $i++) {
         $num = $i;
@@ -85,8 +86,8 @@ if ($diaSetmana == 0) {
         }
 
         $obj = new stdClass();
-        $obj->name = 'full_' . $dataAra->format('Y-m-d') . '.part' . $num;
-        $obj->path = TMP_PATH . 'full_' . $dataAra->format('Y-m-d') . '.part' . $num;
+        $obj->name = 'full_' . $today->format('Y-m-d') . '.part' . $num;
+        $obj->path = TMP_PATH . 'full_' . $today->format('Y-m-d') . '.part' . $num;
 
         array_push($arrayfiles, $obj);
     }
@@ -98,7 +99,7 @@ if ($diaSetmana == 0) {
 $amazonServei = AmazonServei::getInstance();
 
 foreach ($arrayfiles as $f) {
-    $amazonServei->uploadObject('copia_' . $dataAra->format('Y-m-d') . DIRECTORY_SEPARATOR . $f->name, $f->path);
+    $amazonServei->uploadObject('copia_' . $today->format('Y-m-d') . DIRECTORY_SEPARATOR . $f->name, $f->path);
 }
 
 
